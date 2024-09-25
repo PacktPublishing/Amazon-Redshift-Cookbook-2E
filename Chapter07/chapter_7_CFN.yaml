@@ -37,6 +37,7 @@ Resources:
               - 'kms:*'
               - 'glue:*'
               - 'ec2:*'
+              - 'elasticache:*'
               - s3:ListAllMyBuckets
               - s3:GetBucketLocation               
             Resource:
