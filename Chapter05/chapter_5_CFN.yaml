@@ -52,6 +52,7 @@ Resources:
             Action:
               - 'redshift:*'
               - 'redshift-data:*'
+              - 'redshift-serverless:*'
               - 'events:*'
               - 'states:*'
               - 'secretsmanager:*'
