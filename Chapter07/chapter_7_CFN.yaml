@@ -28,6 +28,7 @@ Resources:
             Action:
               - 'redshift:*'
               - 'redshift-data:*'
+              - 'redshift-serverless:*'
               - 'secretsmanager:*'
               - 'logs:*'
               - 'sns:*'
