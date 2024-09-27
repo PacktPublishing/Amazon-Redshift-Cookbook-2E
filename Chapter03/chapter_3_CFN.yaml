@@ -9,9 +9,9 @@ Parameters:
     Type: String
     Description: Session name must satisfy regular expression pattern ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     Default: ""    
-  RedshiftClusterRole:
+  RedshiftDataWarehouseRole:
     Type: String
-    Description: redshift cluster role name
+    Description: redshift data warehouse role name
     Default: ""   
 Resources:
   Chapter3IAMPolicy:
@@ -25,6 +25,7 @@ Resources:
           Action:
           - emr:*
           - redshift:*
+          - redshift-serverless:*
           - redshift-data:*    
           - kms:*
           - dynamodb:*
