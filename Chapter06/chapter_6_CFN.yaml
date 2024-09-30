@@ -15,6 +15,14 @@ Parameters:
     Type: String
     Description: redshift cluster role name
     Default: ''
+  IAMIdCInstanceID:
+    Type: String
+    Description: IAM Identity Center Instance ID
+    Default: ''
+  AccountId:
+    Type: String
+    Description: AWS Account ID
+    Default: ''    
 Resources:
             
   Chapter6IAMPolicy:
@@ -28,6 +36,7 @@ Resources:
             Action:
               - 'redshift:*'
               - 'redshift-data:*'
+              - 'redshift-serverless:*'
               - 'secretsmanager:*'
               - 'logs:*'
               - 'ec2:*'
@@ -38,7 +47,8 @@ Resources:
               - 'kms:*'
               - 'glue:*'
               - s3:ListAllMyBuckets
-              - s3:GetBucketLocation               
+              - s3:GetBucketLocation   
+              - 'sso:*'              
             Resource:
               - '*'
           - Effect: Allow
@@ -46,7 +56,8 @@ Resources:
               - s3:*
             Resource:
               - !Sub "arn:aws:s3:::${CookbookBucketName}"
-              - !Sub "arn:aws:s3:::${CookbookBucketName}/*"               
+              - !Sub "arn:aws:s3:::${CookbookBucketName}/*"  
+                       
       Users:
         - !Ref CookbookIAMUserName
   Chapter6RedshiftPolicy:
@@ -65,7 +76,22 @@ Resources:
             Action:
               - glue:*  
             Resource:
-              - '*'              
+              - '*'      
+          - Effect: Allow
+            Action:
+              - sso:*  
+            Resource:
+              - !Sub "arn:aws:sso:::instance/${IAMIdCInstanceID}",
+              - !Sub "arn:aws:sso::${AccountId}:application/${IAMIdCInstanceID}/*"    
+          - Effect: Allow
+            Action:
+              - 'redshift:DescribeQev2IdcApplications',
+              - 'redshift-serverless:ListNamespaces',
+              - 'redshift-serverless:ListWorkgroups',
+              - 'redshift-serverless:GetWorkgroup' 
+            Resource:
+              - '*'
+               
       Roles:
         - !Ref RedshiftClusterRole
 Outputs:
