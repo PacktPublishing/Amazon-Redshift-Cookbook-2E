@@ -11,9 +11,9 @@ Parameters:
       Session name must satisfy regular expression pattern
       ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     Default: ''
-  RedshiftClusterRole:
+  RedshiftDatawarehouseRole:
     Type: String
-    Description: redshift cluster role name
+    Description: redshift data warehouse role name
     Default: ''
 Resources:
   Chapter9GlueServiceRole:
@@ -49,6 +49,7 @@ Resources:
           - Effect: Allow
             Action:
               - 'redshift:*'
+              - 'redshift-serverless:*'
               - 'redshift-data:*'
               - 'secretsmanager:*'
               - 'logs:*'
@@ -98,7 +99,7 @@ Resources:
             Resource:
               - '*'                 
       Roles:
-        - !Ref RedshiftClusterRole
+        - !Ref RedshiftDatawarehouseRole
 Outputs:
   Chapter9IAMPolicy:
     Description: IAM policy access for chapter 9
