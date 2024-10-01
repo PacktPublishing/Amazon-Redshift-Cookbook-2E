@@ -33,7 +33,14 @@ Resources:
           - logs:*
           - ec2:*    
           - s3:ListAllMyBuckets
-          - s3:GetBucketLocation  
+          - s3:GetBucketLocation 
+          - cloudwatch:*
+          - kms:*
+          - iam:*
+          - cloudtrail:DescribeTrails
+          - cfn:*
+          - databrew:*
+          - appflow:*
           - cloudformation:*
           - secretmanager:*
           - cognito-identity:*          
@@ -90,6 +97,12 @@ Resources:
           Action:
           - dynamodb:scan
           - dynamodb:Describe*
+          Resource: 
+          - '*'
+        - Effect: Allow
+          Action:
+          - kinesis:*
+          - kafka-cluster:*
           Resource: 
           - '*'
         - Effect: Allow
