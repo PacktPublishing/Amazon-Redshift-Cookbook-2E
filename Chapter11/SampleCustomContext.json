@@ -1,0 +1,50 @@
+{
+    "resources": [
+        {
+            "ResourceId": "mycluster",
+            "ResourceType": "REDSHIFT_WAREHOUSE",
+            "TablesToInclude": [
+                "dev.public.customer",
+                "dev.public.orders",
+                "dev.public.part",
+                "dev.public.supplier",
+                "dev.public.lineitem",
+                "dev.public.dwdate"
+            ],
+            "TablesToExclude": [],
+            "ColumnsToInclude": {},
+            "ColumnsToExclude": {},
+            "TableAnnotations": {
+                "dev.public.customer": "Contains customer information",
+                "dev.public.orders": "Contains order details",
+                "dev.public.part": "Contains part information",
+                "dev.public.supplier": "Contains supplier information",
+                "dev.public.lineitem": "Contains line item details for orders",
+                "dev.public.dwdate": "Contains date dimension information"
+            },
+            "ColumnAnnotations": {
+                "dev.public.customer": {
+                    "C_CUSTKEY": "Unique customer key",
+                    "C_NAME": "Customer name",
+                    "C_ACCTBAL": "Customer account balance"
+                },
+                "dev.public.orders": {
+                    "O_ORDERKEY": "Unique order key",
+                    "O_CUSTKEY": "Customer key (foreign key to customer table)",
+                    "O_TOTALPRICE": "Total price of the order"
+                },
+                "dev.public.lineitem": {
+                    "L_ORDERKEY": "Order key (foreign key to orders table)",
+                    "L_PARTKEY": "Part key (foreign key to part table)",
+                    "L_SUPPKEY": "Supplier key (foreign key to supplier table)",
+                    "L_EXTENDEDPRICE": "Extended price for the line item",
+                    "L_DISCOUNT": "Discount applied to the line item"
+                }
+            },
+            "CuratedQueries": [],
+            "CustomDocuments": [],
+            "AdditionalTables": {},
+            "AppendToPrompt": ""
+        }
+    ]
+}
