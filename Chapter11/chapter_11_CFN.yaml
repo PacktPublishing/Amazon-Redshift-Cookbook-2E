@@ -11,9 +11,9 @@ Parameters:
       Session name must satisfy regular expression pattern
       ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     Default: ''
-  RedshiftClusterRole:
+  RedshiftDWHRole:
     Type: String
-    Description: redshift cluster role name
+    Description: redshift data warehouse role name
     Default: ''
 Resources:
            
@@ -95,7 +95,39 @@ Resources:
             Resource:
               - '*'                 
       Roles:
-        - !Ref RedshiftClusterRole
+        - !Ref RedshiftDWHRole
+  
+  QuickSightRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: quicksight-role-1
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: quicksight.amazonaws.com
+          Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+        - arn:aws:iam::aws:policy/service-role/AWSQuickSightDescribeRedshift
+
+  QuicksightRolePolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+            - 'ec2:CreateNetworkInterface'
+            - 'ec2:ModifyNetworkInterfaceAttribute'
+            - 'ec2:DeleteNetworkInterface'
+            - 'ec2:DescribeSubnets'
+            - 'ec2:DescribeSecurityGroups'
+            Resource: '*'
+      Roles:
+        - !Ref QuickSightRole
         
 Outputs:
   Chapter11IAMPolicy:
@@ -104,4 +136,7 @@ Outputs:
   Chapter11RedshiftPolicy:
     Description: Chapter11 redshift policy
     Value: !Ref Chapter11RedshiftPolicy
+  QuickSightRoleArn:
+    Description: The ARN of the QuickSight role
+    Value: !GetAtt QuickSightRole.Arn
            
