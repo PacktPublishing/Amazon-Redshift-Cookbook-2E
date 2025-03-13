@@ -1,0 +1,32 @@
+## Replace <region> with region your region you are running the recipe in
+## Replace <account_number> with your AWS account number
+
+aws lakeformation put-data-lake-settings \
+--region us-east-1 \
+--endpoint-url https://glue.<region>.amazonaws.com \
+--cli-input-json \
+'{
+    "DataLakeSettings": {
+        "DataLakeAdmins": [
+            {
+                "DataLakePrincipalIdentifier": "arn:aws:iam::<account_number>:role/Admin"
+            }
+        ],
+        "ReadOnlyAdmins": [
+            {
+                "DataLakePrincipalIdentifier": "arn:aws:iam::<account_number>:role/aws-service-role/redshift.amazonaws.com/AWSServiceRoleForRedshift"
+            }
+        ],
+        "CreateDatabaseDefaultPermissions": [],
+        "CreateTableDefaultPermissions": [],
+        "Parameters": {
+            "CROSS_ACCOUNT_VERSION": "3",
+            "SET_CONTEXT": "TRUE"
+        },
+        "AllowExternalDataFiltering": false,
+        "ExternalDataFilteringAllowList": []
+    }
+}'
+
+
+
