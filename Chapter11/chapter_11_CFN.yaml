@@ -47,6 +47,7 @@ Resources:
               - 'elasticache:*'
               - 'dataexchange:*'
               - 'quicksight:*'
+			  - 'datazone:*'
             Resource:
               - '*'
           - Effect: Allow
