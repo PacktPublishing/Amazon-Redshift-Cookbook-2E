@@ -1,4 +1,9 @@
 -- Create Customers table
+drop table if exists customers;
+drop table if exists products;
+drop table if exists orders;
+drop table if exists order_items;
+
 CREATE TABLE customers (
     customer_id INTEGER ,
     first_name VARCHAR(50),

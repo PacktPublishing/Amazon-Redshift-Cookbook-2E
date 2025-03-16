@@ -2,7 +2,7 @@ Parameters:
   DataZoneDomainName:
     Description: Amazon DataZone domain name
     Type: String
-    Default: AWSome-Retail-Company
+    Default: cookbookChapter11
 Resources:
   datazoneexecutionroleA8D05138:
     Type: AWS::IAM::Role
@@ -37,13 +37,20 @@ Resources:
           - Arn
       Name: 
         Ref: DataZoneDomainName
-  salesprj:
+  salespublisher:
     Type: AWS::DataZone::Project
     Properties:
-      Description: Producer project managed by the Sales team
+      Description: Producer project managed by the sales publishing team
       DomainIdentifier:
         Ref: datazonedomain
-      Name: SalesPRJ
+      Name: SalesPublisher
+  marketingconsumer:
+    Type: AWS::DataZone::Project
+    Properties:
+      Description: Consumer project managed by the marketing team
+      DomainIdentifier:
+        Ref: datazonedomain
+      Name: MarketingConsumer          
   datazoneaccessroleF4506F82:
     Type: AWS::IAM::Role
     Properties:
@@ -115,3 +122,27 @@ Outputs:
     Description: Amazon DataZone portal URL
     Export:
       Name: datazone-portal-url
+  datazonedomainid:
+    Value:
+      Fn::GetAtt:
+        - datazonedomain
+        - Id
+    Description: Amazon DataZone Domain Id
+    Export:
+      Name: datazone-domain-id     
+  datazonePublisherProjectId:
+    Value:
+      Fn::GetAtt:
+        - salespublisher
+        - Id
+    Description: Amazon DataZone publisher project id
+    Export:
+      Name: datazone-publisher-project-id      
+  datazoneConsumerProjectId:
+    Value:
+      Fn::GetAtt:
+        - marketingconsumer
+        - Id
+    Description: Amazon DataZone Consumer project id
+    Export:
+      Name: datazone-consumer-project-id          
