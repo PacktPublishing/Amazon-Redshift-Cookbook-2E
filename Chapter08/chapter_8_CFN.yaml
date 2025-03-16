@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Stack for Amazon Redshift cookbook Chapter8
+Description: Stack for Amazon Redshift cookbook Chapter7
 Parameters:
   CookbookIAMUserName:
     Type: String
@@ -16,28 +16,11 @@ Parameters:
     Description: redshift cluster role name
     Default: ''
 Resources:
-  Chapter8RedshiftSchedulerRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      Description: IAM Role for Redshift scheduler
-      RoleName: Chapter8RedshiftSchedulerRole
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Action:
-              - 'sts:AssumeRole'
-            Effect: Allow
-            Principal:
-              Service: 
-                - scheduler.redshift.amazonaws.com
-                - redshift.amazonaws.com
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonRedshiftFullAccess
             
-  Chapter8IAMPolicy:
+  Chapter7IAMPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
-      ManagedPolicyName: Chapter8IAMPolicy
+      ManagedPolicyName: Chapter7IAMPolicy
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -45,19 +28,19 @@ Resources:
             Action:
               - 'redshift:*'
               - 'redshift-data:*'
+              - 'redshift-serverless:*'
               - 'secretsmanager:*'
               - 'logs:*'
               - 'sns:*'
               - 'cloudwatch:*'
+              - 'iam:*'
               - 'cloudformation:*'
               - 'kms:*'
               - 'glue:*'
               - 'ec2:*'
+              - 'elasticache:*'
               - s3:ListAllMyBuckets
-              - s3:GetBucketLocation  
-              - trustedadvisor:Describe* 
-              - aws-portal:ViewAccount
-              - aws-portal:ViewBilling              
+              - s3:GetBucketLocation               
             Resource:
               - '*'
           - Effect: Allow
@@ -68,7 +51,7 @@ Resources:
               - !Sub "arn:aws:s3:::${CookbookBucketName}/*"               
       Users:
         - !Ref CookbookIAMUserName
-  Chapter8RedshiftPolicy:
+  Chapter7RedshiftPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
       PolicyDocument:
@@ -88,13 +71,9 @@ Resources:
       Roles:
         - !Ref RedshiftClusterRole
 Outputs:
-  Chapter8IAMPolicy:
-    Description: IAM policy access for chapter 8
-    Value: !Ref Chapter8IAMPolicy
-  Chapter8RedshiftPolicy:
-    Description: Chapter8 redshift policy
-    Value: !Ref Chapter8RedshiftPolicy
-  Chapter8RedshiftSchedulerRole:
-    Description: Chapter8 redshift scheduler role for elastic resize, pause and resume
-    Value: !GetAtt Chapter8RedshiftSchedulerRole.Arn
-           
+  Chapter7IAMPolicy:
+    Description: IAM policy access for chapter 7
+    Value: !Ref Chapter7IAMPolicy
+  Chapter7RedshiftPolicy:
+    Description: Chapter7 redshift policy
+    Value: !Ref Chapter7RedshiftPolicy
