@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Stack for Amazon Redshift cookbook Chapter7
+Description: Stack for Amazon Redshift cookbook Chapter8
 Parameters:
   CookbookIAMUserName:
     Type: String
@@ -17,10 +17,10 @@ Parameters:
     Default: ''
 Resources:
             
-  Chapter7IAMPolicy:
+  Chapter8IAMPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
-      ManagedPolicyName: Chapter7IAMPolicy
+      ManagedPolicyName: Chapter8IAMPolicy
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -51,7 +51,7 @@ Resources:
               - !Sub "arn:aws:s3:::${CookbookBucketName}/*"               
       Users:
         - !Ref CookbookIAMUserName
-  Chapter7RedshiftPolicy:
+  Chapter8RedshiftPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
       PolicyDocument:
@@ -71,9 +71,9 @@ Resources:
       Roles:
         - !Ref RedshiftClusterRole
 Outputs:
-  Chapter7IAMPolicy:
+  Chapter8IAMPolicy:
     Description: IAM policy access for chapter 7
-    Value: !Ref Chapter7IAMPolicy
-  Chapter7RedshiftPolicy:
-    Description: Chapter7 redshift policy
-    Value: !Ref Chapter7RedshiftPolicy
+    Value: !Ref Chapter8IAMPolicy
+  Chapter8RedshiftPolicy:
+    Description: Chapter8 redshift policy
+    Value: !Ref Chapter8RedshiftPolicy
