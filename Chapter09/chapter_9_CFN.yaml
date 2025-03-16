@@ -11,33 +11,28 @@ Parameters:
       Session name must satisfy regular expression pattern
       ^[a-zA-Z0-9](-*[a-zA-Z0-9])*
     Default: ''
-  RedshiftDatawarehouseRole:
+  RedshiftClusterRole:
     Type: String
-    Description: redshift data warehouse role name
+    Description: redshift cluster role name
     Default: ''
 Resources:
-  Chapter9GlueServiceRole:
+  Chapter9RedshiftSchedulerRole:
     Type: 'AWS::IAM::Role'
     Properties:
       Description: IAM Role for Redshift scheduler
-      RoleName: Chapter9GlueServiceRole
+      RoleName: Chapter9RedshiftSchedulerRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
-          -
-            Effect: "Allow"
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
             Principal:
-              Service:
-                - "glue.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
+              Service: 
+                - scheduler.redshift.amazonaws.com
+                - redshift.amazonaws.com
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonS3FullAccess
-        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
-        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceNotebookRole
-        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
-        - arn:aws:iam::aws:policy/AmazonRDSFullAccess
-
+        - arn:aws:iam::aws:policy/AmazonRedshiftFullAccess
             
   Chapter9IAMPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
@@ -49,7 +44,6 @@ Resources:
           - Effect: Allow
             Action:
               - 'redshift:*'
-              - 'redshift-serverless:*'
               - 'redshift-data:*'
               - 'secretsmanager:*'
               - 'logs:*'
@@ -59,13 +53,11 @@ Resources:
               - 'kms:*'
               - 'glue:*'
               - 'ec2:*'
-              - 'iam:*'
               - s3:ListAllMyBuckets
               - s3:GetBucketLocation  
-              - 'rds:*'
-              - cloudtrail:DescribeTrails
-              - 'lakeformation:*'
-              - 'cfn:*'
+              - trustedadvisor:Describe* 
+              - aws-portal:ViewAccount
+              - aws-portal:ViewBilling              
             Resource:
               - '*'
           - Effect: Allow
@@ -92,23 +84,17 @@ Resources:
             Action:
               - glue:*  
             Resource:
-              - '*'    
-          - Effect: Allow
-            Action:
-              - secretsmanager:*
-            Resource:
-              - '*'                 
+              - '*'              
       Roles:
-        - !Ref RedshiftDatawarehouseRole
+        - !Ref RedshiftClusterRole
 Outputs:
   Chapter9IAMPolicy:
-    Description: IAM policy access for chapter 9
+    Description: IAM policy access for chapter 8
     Value: !Ref Chapter9IAMPolicy
   Chapter9RedshiftPolicy:
     Description: Chapter9 redshift policy
     Value: !Ref Chapter9RedshiftPolicy
-  Chapter9GlueServiceRole:
-    Description: Chapter9 glue service role
-    Value: !Ref Chapter9RedshiftPolicy    
-
+  Chapter9RedshiftSchedulerRole:
+    Description: Chapter9 redshift scheduler role for elastic resize, pause and resume
+    Value: !GetAtt Chapter9RedshiftSchedulerRole.Arn
            
