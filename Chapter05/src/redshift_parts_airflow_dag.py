@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 
-create_table_sql = '''DROP TABLE IF EXISTS PART_STG;
-               CREATE TABLE part_stg 
+create_table_sql = '''
+               CREATE TABLE IF NOT EXISTS part_stg 
                (
                  P_PARTKEY  BIGINT NOT NULL,
                  P_NAME          VARCHAR(55),
@@ -25,7 +25,7 @@ create_table_sql = '''DROP TABLE IF EXISTS PART_STG;
                  P_COMMENT       VARCHAR(23)
                 );'''
 				
-load_sql = '''copy public.part_stg from 's3://<your-bucket>/ssb/part/' iam_role '<your-iam-role' gzip csv region 'us-east-1'; '''
+load_sql = '''copy public.part_stg from '<Your-Amazon_S3_Bucket>' iam_role '<your-Redshift-role> ' gzip csv; '''
      
 def check_record_count(*args, **kwargs):
     table = kwargs["params"]["table"]
