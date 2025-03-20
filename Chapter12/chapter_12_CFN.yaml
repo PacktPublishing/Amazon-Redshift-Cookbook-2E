@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Stack for Amazon Redshift cookbook Chapter11
+Description: Stack for Amazon Redshift cookbook Chapter12
 Parameters:
   CookbookIAMUserName:
     Type: String
@@ -17,10 +17,10 @@ Parameters:
     Default: ''
 Resources:
            
-  Chapter11IAMPolicy:
+  Chapter12IAMPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
-      ManagedPolicyName: Chapter11IAMPolicy
+      ManagedPolicyName: Chapter12IAMPolicy
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -57,7 +57,7 @@ Resources:
               - !Sub "arn:aws:s3:::${CookbookBucketName}/*"               
       Users:
         - !Ref CookbookIAMUserName
-  Chapter11RedshiftPolicy:
+  Chapter12RedshiftPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
       PolicyDocument:
@@ -130,12 +130,12 @@ Resources:
         - !Ref QuickSightRole
         
 Outputs:
-  Chapter11IAMPolicy:
-    Description: IAM policy access for chapter 11
-    Value: !Ref Chapter11IAMPolicy
-  Chapter11RedshiftPolicy:
-    Description: Chapter11 redshift policy
-    Value: !Ref Chapter11RedshiftPolicy
+  Chapter12IAMPolicy:
+    Description: IAM policy access for chapter 12
+    Value: !Ref Chapter12IAMPolicy
+  Chapter12RedshiftPolicy:
+    Description: Chapter12 redshift policy
+    Value: !Ref Chapter12RedshiftPolicy
   QuickSightRoleArn:
     Description: The ARN of the QuickSight role
     Value: !GetAtt QuickSightRole.Arn
